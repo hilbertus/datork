@@ -4,18 +4,34 @@
 namespace datork\io;
 
 
+use datork\system\File;
+
 class CsvTest extends \PHPUnit_Framework_TestCase
 {
+    private $path;
+    
+    protected function setUp()
+    {
+        $this->path = dirname(dirname(__DIR__)).'/runtime/csv-test.csv';
+        
+    }
+
+    protected function tearDown()
+    {
+//        File::delete($this->path);
+    }
+
+
     public function testWrite()
     {
         $sampleData = [
-            ['name', 'age', 'alive'],
-            ['Batman', 34, true],
-            ['Superman', 28, true],
-            ['Clingon', 99, false]
+            ['name' => 'Batman', 'age' => '34', 'alive' => 'true'],
+            ['name' => 'Superman', 'age' => '28', 'alive' => 'true'],
+            ['alive' => 'false', 'name'=> 'Caeser', 'age' => '99']
         ];
-//        $path = dirname(dirname(__DIR__)):'/'
-//        Csv::write()
-        echo 'ich bin hier';
+        
+        Csv::write($sampleData, $this->path);
+        $res = Csv::read($this->path);
+        $this->assertEquals($sampleData, $res);
     }
 }
