@@ -1,0 +1,28 @@
+{
+  "name": "hilbertus/datork",
+  "description": "Working with data more compfortable",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alexander Tichonow",
+      "email": "alexander.tichonow@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "datork\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "datork\\": "tests/unit"
+    }
+  }
+}
