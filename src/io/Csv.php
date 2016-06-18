@@ -49,11 +49,15 @@ class Csv
         /** @var $options CsvReadOptions */
         $options = Object::build(CsvReadOptions::class, $csvReadOptionsArr);
         $keys = fgetcsv($fp, null, $options->delimiter, $options->enclosure, $options->escapeChar);
+        $keyCount = count($keys);
         $res = [];
         if($keys === false){
             return $res;
         }
         while (($row = fgetcsv($fp, null, $options->delimiter, $options->enclosure, $options->escapeChar)) !== false) {
+            if(count($row) !== $keyCount){
+                continue;
+            }
             $res[] = array_combine($keys, $row);
         }
         fclose($fp);
