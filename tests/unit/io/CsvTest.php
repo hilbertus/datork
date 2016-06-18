@@ -18,7 +18,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-//        File::delete($this->path);
+        File::delete([$this->path]);
     }
 
 
@@ -34,4 +34,22 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $res = Csv::read($this->path);
         $this->assertEquals($sampleData, $res);
     }
+
+
+    public function testWithOptions()
+    {
+        $sampleData = [
+            ['name' => 'Batman', 'age' => '34', 'alive' => 'true'],
+            ['name' => 'Superman', 'age' => '28', 'alive' => 'true'],
+            ['alive' => 'false', 'name'=> 'Caeser', 'age' => '99']
+        ];
+
+        $options = ["delimiter" => "\t"];
+
+        Csv::write($sampleData, $this->path, $options);
+        $res = Csv::read($this->path, $options);
+        $this->assertEquals($sampleData, $res);
+    }
+
+
 }
