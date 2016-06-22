@@ -4,18 +4,22 @@
 namespace datork\arr;
 
 
+use datork\base\Key;
+
 class Get
 {
     /**
-     * Returns the sub array of $array with key and order of $keys
+     * Returns the sub multidimensional array of $array with multidimensional keys and order of $keys
      * @param array $array
-     * @param array $keys
+     * @param array $key [[keys of first dimension], [keys of second dimension], ...] <br /> empty dimension array means take all
      * @return array
      */
-    public static function byKeys(&$array, $keys)
+    public static function byKey(&$array, $key)
     {
-        return self::byMultiKeys($array, [$keys]);
+        $keys = Key::normalize($key);
+        return self::byMultiKeys($array, $keys);
     }
+
 
     /**
      * Returns the sub multidimensional array of $array with multidimensional keys and order of $keys
@@ -23,7 +27,7 @@ class Get
      * @param array $keys [[keys of first dimension], [keys of second dimension], ...] <br /> empty dimension array means take all
      * @return array
      */
-    public static function byMultiKeys(&$array, $keys)
+    private static function byMultiKeys(&$array, $keys)
     {
         $curDimKeys = array_shift($keys);
         if($curDimKeys === null){

@@ -8,14 +8,28 @@ class GetTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetByKeys()
     {
+        $this->getBySimpleKeys();
+        $this->getByKeyList();
+        $this->getByMultidimensionalKey();
+    }
+    
+    private function getBySimpleKeys()
+    {
+        $arr = ['hello', 'world', 5 => '!'];
+        $this->assertEquals([5 => '!'], Get::byKey($arr, 5));
+    }
+
+
+    private function getByKeyList()
+    {
         $arr = ['c' => 'Z', 'a' => 'X', 'b' => 'Y'];
         $keys = ['a', 'b', 'c'];
-        $res = Get::byKeys($arr, $keys);
+        $res = Get::byKey($arr, $keys);
         $expexted = ['a' => 'X', 'b' => 'Y', 'c' => 'Z'];
         $this->assertEquals(json_encode($expexted), json_encode($res));
     }
 
-    public function testGetByMultiKeys()
+    private function getByMultidimensionalKey()
     {
         $arr = [
             [1, 8, 2],
@@ -23,21 +37,12 @@ class GetTest extends \PHPUnit_Framework_TestCase
             [1, 6, 3]
         ];
 
-        $expected = [
-            0 => [1, 8],
-            2 => [1, 6]
-        ];
-
-//        $res = Get::byMultiKeys($arr, [[0,2], [0,1]]);
-//        $this->assertEquals(json_encode($expected), json_encode($res));
-
-        $res = Get::byMultiKeys($arr, [[], [2]]);
+        $res = Get::byKey($arr, [[], [2]]);
         $expected = [
             0 => [2 => 2],
             1 => [2 => 0],
             2 => [2 => 3]
         ];
         $this->assertEquals(json_encode($expected), json_encode($res));
-
     }
 }
